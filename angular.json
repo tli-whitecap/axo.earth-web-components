@@ -3,5 +3,104 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "AxoEarth": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/axo-earth",
+      "sourceRoot": "projects/axo-earth/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/axo-earth",
+            "index": "projects/axo-earth/src/index.html",
+            "main": "projects/axo-earth/src/main.ts",
+            "polyfills": "projects/axo-earth/src/polyfills.ts",
+            "tsConfig": "projects/axo-earth/tsconfig.app.json",
+            "assets": [
+              "projects/axo-earth/src/favicon.ico",
+              "projects/axo-earth/src/assets"
+            ],
+            "styles": [
+              "projects/axo-earth/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "5mb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/axo-earth/src/environments/environment.ts",
+                  "with": "projects/axo-earth/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "AxoEarth:build:production"
+            },
+            "development": {
+              "browserTarget": "AxoEarth:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "AxoEarth:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/axo-earth/src/test.ts",
+            "polyfills": "projects/axo-earth/src/polyfills.ts",
+            "tsConfig": "projects/axo-earth/tsconfig.spec.json",
+            "karmaConfig": "projects/axo-earth/karma.conf.js",
+            "assets": [
+              "projects/axo-earth/src/favicon.ico",
+              "projects/axo-earth/src/assets"
+            ],
+            "styles": [
+              "projects/axo-earth/src/styles.css"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "AxoEarth"
 }

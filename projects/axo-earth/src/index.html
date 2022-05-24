@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AxoEarth</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <axo-earth-connect-button></axo-earth-connect-button>
+  <axo-earth-mint-button></axo-earth-mint-button>
+
+  <script>
+    const connect = document.querySelector('axo-earth-connect-button');
+    const mint = document.querySelector('axo-earth-mint-button');
+    connect.addEventListener('accountChanged', (event)=> {
+      mint.account = event.detail;
+    });
+    connect.addEventListener('balanceChanged',(event)=> {
+      mint.balance = event.detail;
+    });
+</script>
+</body>
+</html>

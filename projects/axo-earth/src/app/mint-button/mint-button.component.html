@@ -1,0 +1,18 @@
+<form>
+    <div>
+        <label>My ETH:</label>
+        <span>{{wallet && wallet.balance? wallet.balance : '0.0'}}</span>
+    </div>
+    <div>
+        <label>Amount:</label>
+        <button type="button" class="decrement-amount-button" (click)="decrementAmount()">-</button>    
+        <span>{{amount}}</span>
+        <button type="button" class="increment-amount-button" (click)="incrementAmount()">+</button>    
+    </div>
+    <div>
+        <label>Total:</label>
+        <span>{{total}}</span>
+    </div>
+    <button type="button" class="mint-button" (click)="mint()">Mint</button>
+    <div><a *ngIf="drop && drop.address" [href]="(isDev? 'https://polygonscan.com/address/' : 'https://etherscan.io/address/') + (drop? drop.address : '')" target="_blank">{{drop? drop.address : ''}}</a></div>
+</form>

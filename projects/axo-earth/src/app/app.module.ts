@@ -1,25 +1,25 @@
 import { NgModule, Injector, DoBootstrap } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { MintButtonComponent } from './mint-button/mint-button.component';
+import { MintSectionComponent } from './mint-section/mint-section.component';
 import { createCustomElement } from '@angular/elements';
 import { ConnectButtonComponent } from './connect-button/connect-button.component';
 
 @NgModule({
   declarations: [
-    MintButtonComponent,
+    MintSectionComponent,
     ConnectButtonComponent
   ],
   imports: [
     BrowserModule
   ],
   providers: [],
-  entryComponents: [MintButtonComponent, ConnectButtonComponent],
+  entryComponents: [MintSectionComponent, ConnectButtonComponent],
 })
 export class AppModule implements DoBootstrap {
   constructor(private injector: Injector) {
-    const mintButtonWebComponent = createCustomElement(MintButtonComponent, {injector});
-    customElements.define('axo-earth-mint-button', mintButtonWebComponent);
+    const mintSectionWebComponent = createCustomElement(MintSectionComponent, {injector});
+    customElements.define('axo-earth-mint-section', mintSectionWebComponent);
 
     const connectButtonWebComponent = createCustomElement(ConnectButtonComponent, {injector});
     customElements.define('axo-earth-connect-button', connectButtonWebComponent);

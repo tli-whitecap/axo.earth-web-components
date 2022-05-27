@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MintButtonComponent } from './mint-button.component';
+import { MintSectionComponent } from './mint-section.component';
 
-describe('MintButtonComponent', () => {
-  let component: MintButtonComponent;
-  let fixture: ComponentFixture<MintButtonComponent>;
+describe('MintSectionComponent', () => {
+  let component: MintSectionComponent;
+  let fixture: ComponentFixture<MintSectionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MintButtonComponent ]
+      declarations: [ MintSectionComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MintButtonComponent);
+    fixture = TestBed.createComponent(MintSectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

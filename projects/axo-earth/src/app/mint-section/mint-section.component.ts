@@ -2,12 +2,15 @@ import { Component, Input, OnInit } from '@angular/core';
 import DropKit from 'dropkit.js'
 import { Wallet } from '../model/wallet';
 
+import type * as bs from 'bootstrap';
+declare var bootstrap: typeof bs;
+
 @Component({
-  selector: 'app-mint-button',
-  templateUrl: './mint-button.component.html',
-  styleUrls: ['./mint-button.component.css']
+  selector: 'app-mint-section',
+  templateUrl: './mint-section.component.html',
+  styleUrls: ['./mint-section.component.css']
 })
-export class MintButtonComponent implements OnInit {
+export class MintSectionComponent implements OnInit {
   @Input()
   set account(a: string)
   {
@@ -30,6 +33,7 @@ export class MintButtonComponent implements OnInit {
   apiKey: string;
   drop: DropKit | null | undefined;
   isDev: boolean;
+  alertMessage: string;
 
   get total(): number {
     return this.amount * this.price;
@@ -39,13 +43,14 @@ export class MintButtonComponent implements OnInit {
     this.minAmount = 1;
     this.maxAmount = 5;
     this.price = 0.04;
-    this.apiKey = "6acf2d68-29b3-47f0-a8a1-e3ff255fb9d9";
-    //this.apiKey = "44534190-5d15-4b49-8a88-1494d73cbedb";
+    this.apiKey = "2d45111f-dc63-4f76-a612-e157c62cd924";
     this.isDev = true;
 
     this.amount = this.minAmount;
 
     this.getWalletFromSession();
+
+    this.alertMessage = "";
   }
 
   ngOnInit(): void {
@@ -56,8 +61,8 @@ export class MintButtonComponent implements OnInit {
         this.drop = await DropKit.create(this.apiKey);
       }
       catch(e) {
-        alert('Ooops. Something went wrong')
-        console.error(e)
+        //this.showAlertModal("Ooops. Something went wrong");
+        console.error(e);
       }
   }
 
@@ -91,7 +96,7 @@ export class MintButtonComponent implements OnInit {
     this.getWalletFromSession();
     if (this.wallet && this.wallet.account && this.wallet.balance && !isNaN(Number(this.wallet.balance))) {
       if (Number(this.wallet.balance) < this.total) {
-        alert('You do not have sufficient funds.')
+        this.showAlertModal("You do not have sufficient funds.");
         return;
       }
 
@@ -99,17 +104,28 @@ export class MintButtonComponent implements OnInit {
         await this.getDrop();
         if (this.drop && this.drop.address)
         {
-          alert('Transaction successful!')
+          this.showAlertModal("Transaction successful!");
         }
       }
       catch(e) {
-        alert('Ooops. Something went wrong')
-        console.error(e)
+        //alert('Ooops. Something went wrong');
+        this.showAlertModal("Ooops. Something went wrong");
+        console.error(e);
       }
     }
     else {
-      alert('Please connect wallet');
+      this.showAlertModal("Please connect wallet");
     }
   }
 
+  showAlertModal(alertMessage: string)
+  {
+    this.alertMessage = alertMessage;
+    const elem = document.getElementById('alertModal');
+    if (elem)
+    {
+      var alertModal = new bootstrap.Modal(elem);
+      alertModal.show();
+    }
+  }
 }

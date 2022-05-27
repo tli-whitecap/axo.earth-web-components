@@ -16,3 +16,17 @@
     <button type="button" class="mint-button" (click)="mint()">Mint</button>
     <div><a *ngIf="drop && drop.address" [href]="(isDev? 'https://polygonscan.com/address/' : 'https://etherscan.io/address/') + (drop? drop.address : '')" target="_blank">{{drop? drop.address : ''}}</a></div>
 </form>
+
+<!-- Alert Modal -->
+<div class="modal" tabindex="-1" id="alertModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          {{alertMessage}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>

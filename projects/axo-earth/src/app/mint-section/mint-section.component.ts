@@ -43,8 +43,10 @@ export class MintSectionComponent implements OnInit {
     this.minAmount = 1;
     this.maxAmount = 5;
     this.price = 0.04;
-    this.apiKey = "2d45111f-dc63-4f76-a612-e157c62cd924";
-    this.isDev = true;
+    this.apiKey = "9bd57a2d-2eda-404a-b368-b88a8cc3c1e6";
+    //this.apiKey = "2d45111f-dc63-4f76-a612-e157c62cd924";
+    //this.apiKey = "44534190-5d15-4b49-8a88-1494d73cbedb";
+    this.isDev = false;
 
     this.amount = this.minAmount;
 
@@ -59,6 +61,16 @@ export class MintSectionComponent implements OnInit {
   async getDrop() {
       try {
         this.drop = await DropKit.create(this.apiKey);
+        if (this.drop)
+        {
+          this.drop.onMinted((...args) => {
+            this.showAlertModal("Transaction successful!");
+
+            console.log(
+                `[onMinted] TokenId: ${args[2]}, From ${args[0]}, To ${args[1]}`
+            );
+          });
+        }
       }
       catch(e) {
         //this.showAlertModal("Ooops. Something went wrong");
@@ -104,12 +116,21 @@ export class MintSectionComponent implements OnInit {
         await this.getDrop();
         if (this.drop && this.drop.address)
         {
-          this.showAlertModal("Transaction successful!");
+          await this.drop.mint(this.amount);
         }
       }
-      catch(e) {
-        //alert('Ooops. Something went wrong');
-        this.showAlertModal("Ooops. Something went wrong");
+      catch(e: any) {
+        if (typeof e === "string") {
+          this.showAlertModal(e);
+        }
+        else if (typeof e.message === "string") {
+          this.showAlertModal(e.message);
+        }
+        else
+        {
+          this.showAlertModal("Ooops. Something went wrong");
+        }
+
         console.error(e);
       }
     }

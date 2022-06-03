@@ -25,7 +25,7 @@
     "bootstrap": "^5.1.3",
     "concat": "^1.0.3",
     "device-detector-js": "^3.0.3",
-    "dropkit.js": "^0.0.15",
+    "dropkit.js": "^0.0.16",
     "ethers": "^5.6.5",
     "fs-extra": "^10.1.0",
     "rxjs": "~7.5.0",

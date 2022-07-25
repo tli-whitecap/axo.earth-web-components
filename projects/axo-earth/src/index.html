@@ -22,6 +22,9 @@
     connect.addEventListener('balanceChanged',(event)=> {
       mint.balance = event.detail;
     });
+    mint.addEventListener('onMinted', (event)=> {
+      connect.onMinted = event.detail;
+    });
 </script>
 </body>
 </html>

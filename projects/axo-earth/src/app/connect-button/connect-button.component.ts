@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Wallet } from '../model/wallet';
 import {ethers} from 'ethers'
 import { Device } from '../model/device';
@@ -17,6 +17,11 @@ export class ConnectButtonComponent implements OnInit {
   @Output() accountChanged = new EventEmitter();
   @Output() balanceChanged = new EventEmitter();
 
+  @Input()
+  set onMinted(tokenId:string) {
+    this.getAccountInfo();
+  }
+
   wallet?: Wallet;
   web3Modal?: Web3Modal;
   provider?: provider;
@@ -24,7 +29,7 @@ export class ConnectButtonComponent implements OnInit {
   isDev: boolean;
   
   constructor() {
-    this.isDev = true;
+    this.isDev = false;
     
     let walletStr = sessionStorage.getItem("wallet");
 
@@ -68,21 +73,7 @@ export class ConnectButtonComponent implements OnInit {
       if (this.provider) {
         this.web3js = new Web3(this.provider);
 
-        const accounts = await this.web3js.eth.getAccounts();
-        if (accounts && accounts.length > 0)
-        {
-          if (!this.wallet)
-          {
-            this.wallet = new Wallet();
-          }
-    
-          this.wallet.account = accounts[0];
-          sessionStorage.setItem("wallet", JSON.stringify(this.wallet));
-
-          this.accountChanged.emit(this.wallet.account);
-
-          await this.getAccountBalance();
-        }
+        this.getAccountInfo();
       }
     }
   }
@@ -96,5 +87,26 @@ export class ConnectButtonComponent implements OnInit {
 
         this.balanceChanged.emit(this.wallet.balance);
       }
+  }
+
+  async getAccountInfo() {
+    if (this.web3js)
+    {
+      const accounts = await this.web3js.eth.getAccounts();
+      if (accounts && accounts.length > 0)
+      {
+        if (!this.wallet)
+        {
+          this.wallet = new Wallet();
+        }
+  
+        this.wallet.account = accounts[0];
+        sessionStorage.setItem("wallet", JSON.stringify(this.wallet));
+
+        this.accountChanged.emit(this.wallet.account);
+
+        await this.getAccountBalance();
+      }
+    }
   }
 }

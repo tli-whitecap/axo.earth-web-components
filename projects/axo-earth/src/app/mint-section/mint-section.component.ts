@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import DropKit from 'dropkit.js'
 import { Wallet } from '../model/wallet';
 
@@ -24,6 +24,8 @@ export class MintSectionComponent implements OnInit {
     this.getWalletFromSession();
     this.getDrop();
   }
+  
+  @Output() onMinted = new EventEmitter();
 
   wallet?: Wallet;
   amount: number;
@@ -42,7 +44,7 @@ export class MintSectionComponent implements OnInit {
   constructor() {
     this.minAmount = 1;
     this.maxAmount = 5;
-    this.price = 0.04;
+    this.price = 0.001;
     this.apiKey = "9bd57a2d-2eda-404a-b368-b88a8cc3c1e6";
     //this.apiKey = "2d45111f-dc63-4f76-a612-e157c62cd924";
     //this.apiKey = "44534190-5d15-4b49-8a88-1494d73cbedb";
@@ -51,6 +53,11 @@ export class MintSectionComponent implements OnInit {
     this.amount = this.minAmount;
 
     this.getWalletFromSession();
+
+    if (this.wallet)
+    {
+      this.getDrop();
+    }
 
     this.alertMessage = "";
   }
@@ -66,9 +73,16 @@ export class MintSectionComponent implements OnInit {
           this.drop.onMinted((...args) => {
             this.showAlertModal("Transaction successful!");
 
+            if (this.wallet && this.wallet.account && this.wallet.balance && !isNaN(Number(this.wallet.balance))) {
+              this.wallet.balance = (Number(this.wallet?.balance) - this.total).toString();
+            }
+            sessionStorage.setItem("wallet", JSON.stringify(this.wallet));
+
             console.log(
                 `[onMinted] TokenId: ${args[2]}, From ${args[0]}, To ${args[1]}`
             );
+
+            this.onMinted.emit(args[2]);
           });
         }
       }

@@ -14,7 +14,10 @@
         <span>{{total}}</span>
     </div>
     <button type="button" class="mint-button" (click)="mint()">Mint</button>
-    <div><a *ngIf="drop && drop.address" [href]="(isDev? 'https://polygonscan.com/address/' : 'https://etherscan.io/address/') + (drop? drop.address : '')" target="_blank">{{drop? drop.address : ''}}</a></div>
+    <div *ngIf="drop && drop.address" class="details-link">
+        <label>Smart Contract:</label>
+        <a [href]="(isDev? 'https://polygonscan.com/address/' : 'https://etherscan.io/address/') + (drop? drop.address : '')" target="_blank">{{drop? drop.address : ''}}</a>
+    </div>
 </form>
 
 <!-- Alert Modal -->

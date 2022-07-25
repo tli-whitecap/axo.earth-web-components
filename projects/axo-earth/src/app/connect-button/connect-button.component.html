@@ -1,2 +1,5 @@
 <button class="connect-button" (click)="connect()" *ngIf="!(wallet && wallet.account)">Connect</button>
-<div *ngIf="wallet && wallet.account">{{wallet.account}}</div>
+<div *ngIf="wallet && wallet.account" class="wallet-address">
+    <label>My Wallet:</label>
+    <span>{{wallet.account}}</span>
+</div>

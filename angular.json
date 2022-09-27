@@ -102,5 +102,7 @@
       }
     }
   },
-  "defaultProject": "AxoEarth"
+  "cli": {
+    "analytics": false
+  }
 }

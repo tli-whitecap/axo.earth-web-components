@@ -6,15 +6,14 @@ import { createCustomElement } from '@angular/elements';
 import { ConnectButtonComponent } from './connect-button/connect-button.component';
 
 @NgModule({
-  declarations: [
-    MintSectionComponent,
-    ConnectButtonComponent
-  ],
-  imports: [
-    BrowserModule
-  ],
-  providers: [],
-  entryComponents: [MintSectionComponent, ConnectButtonComponent],
+    declarations: [
+        MintSectionComponent,
+        ConnectButtonComponent
+    ],
+    imports: [
+        BrowserModule
+    ],
+    providers: []
 })
 export class AppModule implements DoBootstrap {
   constructor(private injector: Injector) {

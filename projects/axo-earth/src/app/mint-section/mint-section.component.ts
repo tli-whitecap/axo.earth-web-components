@@ -44,10 +44,9 @@ export class MintSectionComponent implements OnInit {
   constructor() {
     this.minAmount = 1;
     this.maxAmount = 5;
-    this.price = 0.001;
-    this.apiKey = "9bd57a2d-2eda-404a-b368-b88a8cc3c1e6";
-    //this.apiKey = "2d45111f-dc63-4f76-a612-e157c62cd924";
-    //this.apiKey = "44534190-5d15-4b49-8a88-1494d73cbedb";
+    this.price = 0;
+    //this.apiKey = "9bd57a2d-2eda-404a-b368-b88a8cc3c1e6";
+    this.apiKey = "d0628281-bc87-4d1c-9fed-b15b07a53332";
     this.isDev = false;
 
     this.amount = this.minAmount;
@@ -67,23 +66,26 @@ export class MintSectionComponent implements OnInit {
 
   async getDrop() {
       try {
-        this.drop = await DropKit.create(this.apiKey);
-        if (this.drop)
+        if (!this.drop)
         {
-          this.drop.onMinted((...args) => {
-            this.showAlertModal("Transaction successful!");
-
-            if (this.wallet && this.wallet.account && this.wallet.balance && !isNaN(Number(this.wallet.balance))) {
-              this.wallet.balance = (Number(this.wallet?.balance) - this.total).toString();
-            }
-            sessionStorage.setItem("wallet", JSON.stringify(this.wallet));
-
-            console.log(
-                `[onMinted] TokenId: ${args[2]}, From ${args[0]}, To ${args[1]}`
-            );
-
-            this.onMinted.emit(args[2]);
-          });
+          this.drop = await DropKit.create(this.apiKey);
+          if (this.drop)
+          {
+            this.drop.onMinted((...args) => {
+              this.showAlertModal("Transaction successful!");
+  
+              if (this.wallet && this.wallet.account && this.wallet.balance && !isNaN(Number(this.wallet.balance))) {
+                this.wallet.balance = (Number(this.wallet?.balance) - this.total).toString();
+              }
+              sessionStorage.setItem("wallet", JSON.stringify(this.wallet));
+  
+              console.log(
+                  `[onMinted] TokenId: ${args[2]}, From ${args[0]}, To ${args[1]}`
+              );
+  
+              this.onMinted.emit(args[2]);
+            });
+          }
         }
       }
       catch(e) {
@@ -134,16 +136,18 @@ export class MintSectionComponent implements OnInit {
         }
       }
       catch(e: any) {
-        if (typeof e === "string") {
-          this.showAlertModal(e);
-        }
-        else if (typeof e.message === "string") {
-          this.showAlertModal(e.message);
-        }
-        else
-        {
-          this.showAlertModal("Ooops. Something went wrong");
-        }
+        // if (typeof e === "string") {
+        //   this.showAlertModal(e);
+        // }
+        // else if (typeof e.message === "string") {
+        //   this.showAlertModal(e.message);
+        // }
+        // else
+        // {
+        //   this.showAlertModal("Ooops. Something went wrong");
+        // }
+
+        this.showAlertModal("An error has occurred. Please try again later.");
 
         console.error(e);
       }
